@@ -1,5 +1,6 @@
 import com.greenpineyu.fel.Expression;
 import org.wltea.expression.PreparedExpression;
+import util.AviatorUtil;
 import util.FelUtil;
 import util.IKExpression;
 
@@ -19,7 +20,6 @@ public class Main {
         int times = 1000;
         benchmarkFel( times );
         benchmarkIKexp( times );
-
     }
 
     private static void benchmarkIKexp ( int times ) {
@@ -28,7 +28,7 @@ public class Main {
         for ( int i = 0 ; i < times ; i++ ) {
             IKExpression.evaluation( preCompileExp, MockData.getVariableContextMap());
         }
-        System.out.println( "test ike: " + ( System.currentTimeMillis() - start2 ) );
+        System.out.println( "test avi: " + ( System.currentTimeMillis() - start2 ) );
     }
 
     private static void benchmarkFel ( int times ) {
@@ -36,6 +36,16 @@ public class Main {
         long start = System.currentTimeMillis();
         for ( int i = 0 ; i < times ; i++ ) {
             FelUtil.evaluation( expression, MockData.getVariableContextMap() );
+        }
+        System.out.println( "test fel: " + ( System.currentTimeMillis() - start ) );
+    }
+
+    private static void benchmarkAvi ( int times ) {
+        com.googlecode.aviator.Expression expression = AviatorUtil.compile( MockData.getAviatorExp() );
+
+        long start = System.currentTimeMillis();
+        for ( int i = 0 ; i < times ; i++ ) {
+            AviatorUtil.evaluation( expression, MockData.getAviatorVariableContextMap() );
         }
         System.out.println( "test fel: " + ( System.currentTimeMillis() - start ) );
     }

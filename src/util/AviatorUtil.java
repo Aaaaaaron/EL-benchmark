@@ -13,7 +13,8 @@ public class AviatorUtil {
 
     public static Expression compile ( String expression ) {
         AviatorEvaluator.addFunction( new AviatorFun() );
-        return AviatorEvaluator.compile( expression );
+        //开启缓存
+        return AviatorEvaluator.compile( expression, true );
     }
 
     public static boolean evaluation ( Expression compileExpression, Map< String, Object > context ) {

@@ -40,13 +40,13 @@ public class MockData {
     }
 
     public static String getFelExp2 () {
-        return "( e1_deviceCat123 == '/Application123'" +
-                "|| e1_deviceCat123 == '/IDS/Network123'" +
-                "|| e1_deviceCat123 == '/Firewall' 123)" +
-                "&& e1_catBehavior123 == '/Authentication/Add123'" +
-                "&& e1_catTechnique123 == '/TrafficAnomaly/NetWorkLayer123'" +
-                "&& e1_catObject123 == '/Host/Application/Service123'" +
-                "&& e1_destAddress123 == 1.1.1.1 " +
+        return "( e1_deviceCat123 == '/Application123' " +
+                "|| e1_deviceCat123 == '/IDS/Network' " +
+                "|| e1_deviceCat123 == '/Firewall' ) " +
+                "&& e1_catBehavior123 == '/Authentication/Add123' " +
+                "&& e1_catTechnique123 == '/TrafficAnomaly/NetWorkLayer123' " +
+                "&& e1_catObject123 == '/Host/Application/Service123' " +
+                "&& e1_destAddress123 == '1.1.1.1' " +
                 "&& $('fun.ExpressionUtil').timeHourRange(e1_startTime123,0,13)";
         //return "e1_deviceCat == '/Application'";
     }

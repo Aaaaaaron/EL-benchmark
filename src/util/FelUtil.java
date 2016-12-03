@@ -2,6 +2,8 @@ package util;
 
 import com.greenpineyu.fel.Expression;
 import com.greenpineyu.fel.FelEngine;
+import com.greenpineyu.fel.FelEngineImpl;
+import com.greenpineyu.fel.context.ArrayCtxImpl;
 import com.greenpineyu.fel.context.FelContext;
 
 import java.util.Map;
@@ -12,36 +14,31 @@ import java.util.Set;
  */
 //todo 写着写着 FelUtil和IKEutil感觉好像可以抽成基类了
 public class FelUtil {
-    private static FelEngine engine;
-    private static FelContext felContext;
 
-    static {
-        //engine = new FelEngineImpl();
-        engine = FelEngine.instance;
-        felContext = engine.getContext();
-    }
-
+    //写个带缓存的编译
     public static Expression compile ( String expression, Set< String > contextFields ) {
-        //FelEngine engine = FelEngine.instance;
-        setContextFieldsType( contextFields );
+        FelEngine engine = new FelEngineImpl();
+        setContextFieldsType( contextFields, engine.getContext() );
         return engine.compile( expression, null );
     }
 
-    private static void setContextFieldsType ( Set< String > contextFields ) {
+    private static void setContextFieldsType ( Set< String > contextFields, FelContext felContext ) {
         for ( String field : contextFields ) {
             felContext.set( field, "" );//设置变量的filed的类型为String
         }
     }
 
+    //接口的抽象方法 compile好像是抽不出来了 有个接口就好策略模式了
     public static boolean evaluation ( Expression compileExp, Map< String, String > context ) {
-        setContextFieldsValue( context );
+        FelContext felContext = new ArrayCtxImpl();
+        setContextFieldsValue( context, felContext);
         Object result = compileExp.eval( felContext );
         return result.toString().equals( "true" );
     }
 
-    private static void setContextFieldsValue ( Map< String, String > context ) {
-        for ( String key : context.keySet() ) {
-            felContext.set( key, context.get( key ) );
+    private static void setContextFieldsValue ( Map< String, String > contextValue, FelContext felContext ) {
+        for ( String key : contextValue.keySet() ) {
+            felContext.set( key, contextValue.get( key ) );
         }
     }
 }

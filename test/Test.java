@@ -25,26 +25,26 @@ public class Test {
         AssertJUnit.assertEquals( IKExpression.evaluation( expression, MockData.getVariableContextMap() ), true );
     }
 
-    //测试fel编译过e1,然后编译e2 再执行e1的表达式看看e1的编译结果还在不在
+    //测试fel编译缓存
     @org.testng.annotations.Test
     public void testFelWithIfReCompile () {
         Set< String > variableContextFields = getContextFields( MockData.getVariableContextMap() );
         Expression expression = FelUtil.compile( MockData.getFelExp(), variableContextFields );
-        boolean result1 = FelUtil.evaluation( expression, MockData.getVariableContextMap() );
-        System.out.println( "e1: " + result1 );
-
-        Set< String > variableContextFields2 = getContextFields( MockData.getContextMap2() );
-        Expression expression2 = FelUtil.compile( MockData.getFelExp2(), variableContextFields2 );
-        boolean result2 = FelUtil.evaluation( expression2, MockData.getContextMap2() );
-        System.out.println( "e2: " + result2 );
 
         //////////////////////////////////////////////////////////////////////////////////////////
-        //Expression expression = FelUtil.compile( MockData.getFelExp(), variableContextFields );
         long start = System.currentTimeMillis();
-        for ( int i = 0 ; i < 1000*10000 ; i++ ) {
-            FelUtil.evaluation( expression, MockData.getVariableContextMap() );
+        Expression expression3 = FelUtil.compile( MockData.getFelExp(), variableContextFields,false );
+        for ( int i = 0 ; i < 1 ; i++ ) {
+            FelUtil.evaluation( expression3, MockData.getVariableContextMap() );
         }
-        System.out.println( "test fel: " + ( System.currentTimeMillis() - start ) );
+        System.out.println( "test fel not cache: " + ( System.currentTimeMillis() - start ) );
+
+        long start2 = System.currentTimeMillis();
+        Expression expression4 = FelUtil.compile( MockData.getFelExp(), variableContextFields);
+        for ( int i = 0 ; i < 1 ; i++ ) {
+            FelUtil.evaluation( expression3, MockData.getVariableContextMap() );
+        }
+        System.out.println( "test fel cached: " + ( System.currentTimeMillis() - start2 ) );
 
     }
 

@@ -8,32 +8,38 @@ import com.greenpineyu.fel.exception.CompileException;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.FutureTask;
 
 /**
  * Created by AH on 2016/12/2.
  */
-//todo 写着写着 FelUtil和IKEutil感觉好像可以抽成基类了
-public class FelUtil {
+//todo 阿杜让我适配各个实现,我这里做的都是静态方法,并且会有中间变量 compiledExpression的产生
+public final class FelUtil {
     private final static ConcurrentHashMap< String, FutureTask< Expression > > cachedExpressions
             = new ConcurrentHashMap<>();
 
     public static Expression compile ( final String expression, final Set< String > contextFields ) {
-        if ( expression == null || expression.trim().length() == 0 ) {
-            //run time error 学习下
+        if ( expression == null || expression.trim().length() == 0 )
             throw new CompileException( "Blank expression" );
-        }
+
         return compile( expression, contextFields, true );
     }
 
     public static Expression compile ( final String expression, final Set< String > contextFields, final boolean cached ) {
         if ( cached ) {
             FutureTask< Expression > task = cachedExpressions.get( expression );
-            if ( task != null ) {
+            if ( task != null )
                 return getCompiledExpression( expression, task );
-            }
-            task = new FutureTask<>( () -> innerCompile( expression, contextFields ) );
+
+            task = new FutureTask<>( new Callable< Expression >() {
+                @Override
+                public Expression call () throws Exception {
+                    return innerCompile( expression, contextFields );
+                }
+            } );
+
             FutureTask< Expression > existedTask = cachedExpressions.putIfAbsent( expression, task );
             if ( existedTask == null ) {
                 existedTask = task;
@@ -42,9 +48,8 @@ public class FelUtil {
             return getCompiledExpression( expression, existedTask );
 
         }
-        else {
+        else
             return innerCompile( expression, contextFields );
-        }
     }
 
     private static Expression getCompiledExpression ( final String expression, final FutureTask< Expression > task ) {
@@ -70,16 +75,9 @@ public class FelUtil {
     }
 
     //接口的抽象方法 compile好像是抽不出来了 有个接口就好策略模式了
-    public static boolean evaluation ( final Expression compileExp, final Map< String, String > context ) {
-        FelContext felContext = new ArrayCtxImpl();
-        setContextFieldsValue( context, felContext );
+    public static boolean evaluation ( final Expression compileExp, final Map< String, Object > context ) {
+        FelContext felContext = new ArrayCtxImpl( context );
         Object result = compileExp.eval( felContext );
         return result.toString().equals( "true" );
-    }
-
-    private static void setContextFieldsValue ( final Map< String, String > contextValue, final FelContext felContext ) {
-        for ( String key : contextValue.keySet() ) {
-            felContext.set( key, contextValue.get( key ) );
-        }
     }
 }

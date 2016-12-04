@@ -48,7 +48,7 @@ public class Test {
 
     }
 
-    private Set< String > getContextFields ( Map< String, String > context ) {
+    private Set< String > getContextFields ( Map< String, Object > context ) {
         return context.keySet();
     }
 }

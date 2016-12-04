@@ -50,7 +50,7 @@ public class Main {
         System.out.println( "test fel: " + ( System.currentTimeMillis() - start ) );
     }
 
-    private static Set< String > getContextField ( Map< String, String > variableContext ) {
+    private static Set< String > getContextField ( Map< String, Object > variableContext ) {
         return variableContext.keySet();
     }
 }

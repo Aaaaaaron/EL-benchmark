@@ -29,13 +29,13 @@ public class IKExpression {
         }
     }
 
-    public static boolean evaluation ( PreparedExpression preparedExpression, Map< String, String > context ) {
+    public static boolean evaluation ( PreparedExpression preparedExpression, Map< String, Object > context ) {
         setContextFieldsValue( context );
         Object result = preparedExpression.execute();
         return result.toString().equals( "true" );
     }
 
-    private static void setContextFieldsValue ( Map< String, String > context ) {
+    private static void setContextFieldsValue ( Map< String, Object > context ) {
         for ( Variable variable : variables ) {
             variable.setVariableValue( context.get( variable.getVariableName() ) );
         }

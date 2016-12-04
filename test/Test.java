@@ -27,7 +27,7 @@ public class Test {
 
     //测试fel编译缓存
     @org.testng.annotations.Test
-    public void testFelWithIfReCompile () {
+    public void testFelCompileCache () {
         Set< String > variableContextFields = getContextFields( MockData.getVariableContextMap() );
         Expression expression = FelUtil.compile( MockData.getFelExp(), variableContextFields );
 

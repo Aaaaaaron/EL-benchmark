@@ -28,12 +28,33 @@ public class MockData {
         //return "e1_deviceCat == '/Application'";
     }
 
+    public static String getExp () {
+        return "e1_catBehavior == '/Authentication/Add' ";
+    }
+
+    public static Map< String, Object > getContextMap () {
+        Map< String, Object > testContext = new HashMap<>();
+        testContext.put( "e1_catBehavior", "/Authentication/Add" );
+        return testContext;
+    }
+
     public static Map< String, Object > getVariableContextMap () {
         Map< String, Object > testContext = new HashMap<>();
         testContext.put( "e1_deviceCat", "/Application" );
         testContext.put( "e1_catBehavior", "/Authentication/Add" );
         testContext.put( "e1_catTechnique", "/TrafficAnomaly/NetWorkLayer" );
         testContext.put( "e1_catObject", "/Host/Application/Service" );
+        testContext.put( "e1_destAddress", "1.1.1.1" );
+        testContext.put( "e1_startTime", "2016-03-02 12:57:52" );
+        return testContext;
+    }
+
+    public static Map< String, Object > getWrongVariableContextMap () {
+        Map< String, Object > testContext = new HashMap<>();
+        testContext.put( "e1_deviceCat", "/Application" );
+        testContext.put( "e1_catBehavior", "/Authentication/Add" );
+        testContext.put( "e1_catTechnique", "/TrafficAnomaly/NetWorkLayer" );
+        testContext.put( "e1_catObject", "/Host/Application/Service1" );
         testContext.put( "e1_destAddress", "1.1.1.1" );
         testContext.put( "e1_startTime", "2016-03-02 12:57:52" );
         return testContext;

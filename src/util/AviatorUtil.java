@@ -12,9 +12,11 @@ import java.util.Map;
 public class AviatorUtil {
 
     public static Expression compile ( String expression ) {
-        AviatorEvaluator.addFunction( new AviatorFun() );
-        //开启缓存
         return AviatorEvaluator.compile( expression, true );
+    }
+
+    public static void regAviatorUtilMethod () {
+        AviatorEvaluator.addFunction( new AviatorFun() );
     }
 
     public static boolean evaluation ( Expression compileExpression, Map< String, Object > context ) {

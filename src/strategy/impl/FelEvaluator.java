@@ -16,7 +16,7 @@ import java.util.concurrent.FutureTask;
 /**
  * Created by AH on 2016/12/5.
  */
-public class FelEvaluate implements EvaluatorStrategy {
+public class FelEvaluator implements EvaluatorStrategy {
     private final static ConcurrentHashMap< String, FutureTask< Expression > > cachedExpressions
             = new ConcurrentHashMap<>();
 
@@ -28,7 +28,6 @@ public class FelEvaluate implements EvaluatorStrategy {
 
         Expression compiledExpression =
                 getCompiledExpression( expression, getContextFields( context ), true );
-        //FelContext felContext = new ArrayCtxImpl( context );
         Object result = compiledExpression.eval( context );
         return result.toString().equals( "true" );
     }

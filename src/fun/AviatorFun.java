@@ -2,8 +2,8 @@ package fun;
 
 import com.googlecode.aviator.runtime.function.AbstractFunction;
 import com.googlecode.aviator.runtime.function.FunctionUtils;
+import com.googlecode.aviator.runtime.type.AviatorBoolean;
 import com.googlecode.aviator.runtime.type.AviatorObject;
-import com.googlecode.aviator.runtime.type.AviatorRuntimeJavaType;
 
 import java.util.Map;
 
@@ -16,21 +16,21 @@ public class AviatorFun extends AbstractFunction {
         String time = FunctionUtils.getStringValue( arg1, env );
         Number startHour = FunctionUtils.getNumberValue( arg2, env );
         Number endHour = FunctionUtils.getNumberValue( arg3, env );
-        return new AviatorRuntimeJavaType( timeHourRange( time, startHour.intValue(), endHour.intValue() ) );
+        return timeHourRange( time, startHour.intValue(), endHour.intValue() );
     }
 
-    public static boolean timeHourRange ( String time, int startHour, int endHour ) {
+    private static AviatorBoolean timeHourRange ( String time, int startHour, int endHour ) {
         int timeValue = -1;
         timeValue = Integer.parseInt( time.substring( 11, 13 ) );
         if ( timeValue == -1 )
-            return false;
+            return AviatorBoolean.FALSE;
         if ( startHour <= endHour ) {
             if ( timeValue >= startHour && timeValue <= endHour )
-                return true;
+                return AviatorBoolean.TRUE;
             else
-                return false;
+                return AviatorBoolean.FALSE;
         }
-        return false;
+        return AviatorBoolean.FALSE;
     }
 
     public String getName () {

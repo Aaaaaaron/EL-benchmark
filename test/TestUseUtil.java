@@ -1,6 +1,7 @@
 import com.greenpineyu.fel.Expression;
 import org.testng.AssertJUnit;
 import org.wltea.expression.PreparedExpression;
+import util.AviatorUtil;
 import util.FelUtil;
 import util.IKExpression;
 
@@ -16,6 +17,7 @@ public class TestUseUtil {
         Set< String > variableContextFields = getContextFields( MockData.getVariableContextMap() );
         Expression expression = FelUtil.compile( MockData.getFelExp(), variableContextFields );
         AssertJUnit.assertEquals( FelUtil.evaluation( expression, MockData.getVariableContextMap() ), true );
+        AssertJUnit.assertEquals( FelUtil.evaluation( expression, MockData.getWrongVariableContextMap() ), false );
     }
 
     @org.testng.annotations.Test
@@ -23,6 +25,15 @@ public class TestUseUtil {
         Set< String > variableContextFields = getContextFields( MockData.getVariableContextMap() );
         PreparedExpression expression = IKExpression.compile( MockData.getIKExp(), variableContextFields );
         AssertJUnit.assertEquals( IKExpression.evaluation( expression, MockData.getVariableContextMap() ), true );
+        AssertJUnit.assertEquals( IKExpression.evaluation( expression, MockData.getWrongVariableContextMap() ), false);
+    }
+
+    @org.testng.annotations.Test
+    public void testAviator () {
+        AviatorUtil.regAviatorUtilMethod();
+        com.googlecode.aviator.Expression expression = AviatorUtil.compile( MockData.getAviatorExp() );
+        AssertJUnit.assertEquals( AviatorUtil.evaluation( expression, MockData.getVariableContextMap() ), true );
+        AssertJUnit.assertEquals( AviatorUtil.evaluation( expression, MockData.getWrongVariableContextMap() ), false );
     }
 
     //测试fel编译缓存
@@ -33,14 +44,14 @@ public class TestUseUtil {
 
         //////////////////////////////////////////////////////////////////////////////////////////
         long start = System.currentTimeMillis();
-        Expression expression3 = FelUtil.compile( MockData.getFelExp(), variableContextFields,false );
+        Expression expression3 = FelUtil.compile( MockData.getFelExp(), variableContextFields, false );
         for ( int i = 0 ; i < 1 ; i++ ) {
             FelUtil.evaluation( expression3, MockData.getVariableContextMap() );
         }
         System.out.println( "test fel not cache: " + ( System.currentTimeMillis() - start ) );
 
         long start2 = System.currentTimeMillis();
-        Expression expression4 = FelUtil.compile( MockData.getFelExp(), variableContextFields);
+        Expression expression4 = FelUtil.compile( MockData.getFelExp(), variableContextFields );
         for ( int i = 0 ; i < 1 ; i++ ) {
             FelUtil.evaluation( expression3, MockData.getVariableContextMap() );
         }

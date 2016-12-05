@@ -13,6 +13,7 @@ import java.util.Set;
 /**
  * Created by AH on 2016/12/1.
  */
+// not thread safe
 public class IKExpression {
     private static List< Variable > variables = new ArrayList<>();
 

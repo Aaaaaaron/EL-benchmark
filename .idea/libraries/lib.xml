@@ -6,11 +6,11 @@
     <JAVADOC />
     <SOURCES>
       <root url="jar://D:/dbapp/project/aviator-2.3.7/aviator-2.3.7-sources.jar!/" />
-      <root url="file://$PROJECT_DIR$/../aviator-master/src/main/java" />
-      <root url="file://$PROJECT_DIR$/../aviator-master/src/test/java" />
       <root url="file://E:/fel-all-0.10_jdk1.6/src/java15" />
       <root url="file://E:/fel-all-0.10_jdk1.6/src/java16" />
       <root url="file://E:/fel-all-0.10_jdk1.6/src/main" />
+      <root url="file://E:/lib/aviator-aviator-2.3.7/src/main/java" />
+      <root url="file://E:/lib/aviator-aviator-2.3.7/src/test/java" />
     </SOURCES>
     <jarDirectory url="file://$PROJECT_DIR$/lib" recursive="false" />
   </library>

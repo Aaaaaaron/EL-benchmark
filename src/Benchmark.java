@@ -31,7 +31,7 @@ public class Benchmark {
     }
 
     private static void benchmarkFelUseUtils ( int times ) {
-        Expression expression = FelUtil.compile( MockData.getFelExp(), variableContextFields );
+        Expression expression = FelUtil.compile( MockData.getFelExp(), MockData.getVariableContextMap() );
         long start = System.currentTimeMillis();
         for ( int i = 0 ; i < times ; i++ ) {
             FelUtil.evaluation( expression, MockData.getVariableContextMap() );

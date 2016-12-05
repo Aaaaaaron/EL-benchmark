@@ -2,13 +2,10 @@ package strategy.impl;
 
 import com.greenpineyu.fel.Expression;
 import com.greenpineyu.fel.FelEngine;
-import com.greenpineyu.fel.context.ArrayCtxImpl;
-import com.greenpineyu.fel.context.FelContext;
 import com.greenpineyu.fel.exception.CompileException;
 import strategy.EvaluatorStrategy;
 
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.FutureTask;
@@ -27,12 +24,12 @@ public class FelEvaluator implements EvaluatorStrategy {
             throw new CompileException( "Blank expression or context" );
 
         Expression compiledExpression =
-                getCompiledExpression( expression, getContextFields( context ), true );
+                getCompiledExpression( expression, context, true );
         Object result = compiledExpression.eval( context );
         return result.toString().equals( "true" );
     }
 
-    private static Expression getCompiledExpression ( final String expression, final Set< String > contextFields, final boolean cached ) {
+    private static Expression getCompiledExpression ( final String expression, final Map< String, Object > context, final boolean cached ) {
         if ( cached ) {
             FutureTask< Expression > task = cachedExpressions.get( expression );
             if ( task != null )
@@ -41,7 +38,7 @@ public class FelEvaluator implements EvaluatorStrategy {
             task = new FutureTask<>( new Callable< Expression >() {
                 @Override
                 public Expression call () throws Exception {
-                    return innerCompile( expression, contextFields );
+                    return innerCompile( expression, context );
                 }
             } );
 
@@ -54,7 +51,7 @@ public class FelEvaluator implements EvaluatorStrategy {
 
         }
         else
-            return innerCompile( expression, contextFields );
+            return innerCompile( expression, context );
     }
 
     private static Expression getCachedCompiledExpression ( final String expression, final FutureTask< Expression > task ) {
@@ -66,21 +63,8 @@ public class FelEvaluator implements EvaluatorStrategy {
         }
     }
 
-    private static Expression innerCompile ( final String expression, final Set< String > contextFields ) {
+    private static Expression innerCompile ( final String expression, final Map< String, Object > context ) {
         FelEngine engine = FelEngine.instance;
-        FelContext felContext = new ArrayCtxImpl();
-        setContextFieldsType( contextFields, felContext );
-        return engine.compile( expression, felContext );
+        return engine.compile( expression, context );
     }
-
-    private static void setContextFieldsType ( final Set< String > contextFields, final FelContext felContext ) {
-        for ( String field : contextFields ) {
-            felContext.set( field, "" );//设置变量的filed的类型为String
-        }
-    }
-
-    private static Set< String > getContextFields ( Map< String, Object > context ) {
-        return context.keySet();
-    }
-
 }

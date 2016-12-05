@@ -14,8 +14,7 @@ import java.util.Set;
 public class TestUseUtil {
     @org.testng.annotations.Test
     public void testFel () {
-        Set< String > variableContextFields = getContextFields( MockData.getVariableContextMap() );
-        Expression expression = FelUtil.compile( MockData.getFelExp(), variableContextFields );
+        Expression expression = FelUtil.compile( MockData.getFelExp(), MockData.getVariableContextMap() );
         AssertJUnit.assertEquals( FelUtil.evaluation( expression, MockData.getVariableContextMap() ), true );
         AssertJUnit.assertEquals( FelUtil.evaluation( expression, MockData.getWrongVariableContextMap() ), false );
     }
@@ -40,18 +39,18 @@ public class TestUseUtil {
     @org.testng.annotations.Test
     public void testFelCompileCache () {
         Set< String > variableContextFields = getContextFields( MockData.getVariableContextMap() );
-        Expression expression = FelUtil.compile( MockData.getFelExp(), variableContextFields );
+        Expression expression = FelUtil.compile( MockData.getFelExp(), MockData.getVariableContextMap() );
 
         //////////////////////////////////////////////////////////////////////////////////////////
         long start = System.currentTimeMillis();
-        Expression expression3 = FelUtil.compile( MockData.getFelExp(), variableContextFields, false );
+        Expression expression3 = FelUtil.compile( MockData.getFelExp(), MockData.getVariableContextMap(), false );
         for ( int i = 0 ; i < 1 ; i++ ) {
             FelUtil.evaluation( expression3, MockData.getVariableContextMap() );
         }
         System.out.println( "test fel not cache: " + ( System.currentTimeMillis() - start ) );
 
         long start2 = System.currentTimeMillis();
-        Expression expression4 = FelUtil.compile( MockData.getFelExp(), variableContextFields );
+        Expression expression4 = FelUtil.compile( MockData.getFelExp(), MockData.getVariableContextMap() );
         for ( int i = 0 ; i < 1 ; i++ ) {
             FelUtil.evaluation( expression3, MockData.getVariableContextMap() );
         }

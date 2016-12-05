@@ -22,7 +22,7 @@ public class FelEvaluate implements EvaluatorStrategy {
 
 
     @Override
-    public boolean evaluation ( String expression, Map< String, Object > context ) {
+    public final boolean evaluation ( String expression, Map< String, Object > context ) {
         if ( expression == null || expression.trim().length() == 0 || context.isEmpty() )
             throw new CompileException( "Blank expression or context" );
 

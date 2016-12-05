@@ -20,14 +20,12 @@ public class Benchmark {
     public static void main ( String[] args ) {
         variableContextFields = getContextField( MockData.getVariableContextMap() );
         int times = 1000 * 10000;
-        //benchmarkIKexp( times );
-        for ( int i = 0 ; i < 10 ; i++ ) {
-            benchmarkFelUseUtils( times );
-            benchmarkFelUseStrategy( times );
-            benchmarkAviUseUtils( times );
-            benchmarkAviUseStrategy( times );
-            System.out.println();
-        }
+        benchmarkFelUseUtils( times );
+        benchmarkFelUseStrategy( times );
+        benchmarkAviUseUtils( times );
+        benchmarkAviUseStrategy( times );
+        benchmarkIKexpUseUtils( times );
+        System.out.println();
     }
 
     private static void benchmarkFelUseUtils ( int times ) {

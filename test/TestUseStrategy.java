@@ -1,3 +1,4 @@
+import com.googlecode.aviator.AviatorEvaluator;
 import com.greenpineyu.fel.Expression;
 import com.greenpineyu.fel.FelEngine;
 import org.testng.Assert;
@@ -6,6 +7,9 @@ import strategy.ExpressionEvaluate;
 import strategy.factory.EvaluatorFactory;
 import util.AviatorUtil;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by AH on 2016/12/2.
  */
@@ -13,8 +17,21 @@ public class TestUseStrategy {
     @org.testng.annotations.Test
     public void testFel2 () {
         FelEngine engine = FelEngine.instance;
-        Expression expression = engine.compile( MockData.getFelExp(), MockData.getVariableContextMap() );
-        System.out.println( expression.eval( MockData.getVariableContextMap() ) );
+        String s = "a + 5";
+
+        Map< String, Object > context = new HashMap<>();
+        context.put( "a", 5 );
+        Expression expression = engine.compile( s,context );
+        System.out.println( expression.eval( context ) );
+    }
+
+    @org.testng.annotations.Test
+    public void testAviator2 () {
+        String s = "a > 5";
+        com.googlecode.aviator.Expression expression = AviatorEvaluator.compile( s, true );
+        Map< String, Object > context = new HashMap<>();
+        context.put( "a", 6000000000000000000L );
+        System.out.println( expression.execute( context ) );
     }
 
     @org.testng.annotations.Test

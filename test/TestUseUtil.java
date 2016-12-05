@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * Created by AH on 2016/12/2.
  */
-public class Test {
+public class TestUseUtil {
     @org.testng.annotations.Test
     public void testFel () {
         Set< String > variableContextFields = getContextFields( MockData.getVariableContextMap() );

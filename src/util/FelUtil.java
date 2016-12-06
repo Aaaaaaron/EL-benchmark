@@ -32,7 +32,7 @@ public final class FelUtil {
             task = new FutureTask<>( new Callable< Expression >() {
                 @Override
                 public Expression call () throws Exception {
-                    return innerCompile( expression, context );
+                    return innerCompile( expression );
                 }
             } );
 
@@ -45,7 +45,7 @@ public final class FelUtil {
 
         }
         else
-            return innerCompile( expression, context );
+            return innerCompile( expression );
     }
 
     private static Expression getCompiledExpression ( final String expression, final FutureTask< Expression > task ) {
@@ -57,9 +57,9 @@ public final class FelUtil {
         }
     }
 
-    private static Expression innerCompile ( final String expression, final Map< String, Object > context ) {
+    private static Expression innerCompile ( final String expression ) {
         FelEngine engine = FelEngine.instance;
-        return engine.compile( expression, context );
+        return engine.compile( expression );
     }
 
     public static boolean evaluation ( final Expression compileExp, final Map< String, Object > context ) {

@@ -11,6 +11,10 @@
       <root url="file://E:/fel-all-0.10_jdk1.6/src/main" />
       <root url="file://E:/lib/aviator-aviator-2.3.7/src/main/java" />
       <root url="file://E:/lib/aviator-aviator-2.3.7/src/test/java" />
+      <root url="file://E:/lib/fel-all-0.10_jdk1.6/src/java15" />
+      <root url="file://E:/lib/fel-all-0.10_jdk1.6/src/java16" />
+      <root url="file://E:/lib/fel-all-0.10_jdk1.6/src/main" />
+      <root url="file://E:/lib/fel-all-0.10_jdk1.6/src/java15" />
     </SOURCES>
     <jarDirectory url="file://$PROJECT_DIR$/lib" recursive="false" />
   </library>

@@ -24,7 +24,7 @@ public class Benchmark {
         benchmarkFelUseStrategy( times );
         benchmarkAviUseUtils( times );
         benchmarkAviUseStrategy( times );
-        benchmarkIKexpUseUtils( times );
+        //benchmarkIKexpUseUtils( times );
         System.out.println();
     }
 
@@ -42,7 +42,7 @@ public class Benchmark {
         com.googlecode.aviator.Expression expression = AviatorUtil.compile( MockData.getAviatorExp() );
         long start = System.currentTimeMillis();
         for ( int i = 0 ; i < times ; i++ ) {
-            AviatorUtil.evaluation( expression, MockData.getAviatorVariableContextMap() );
+            AviatorUtil.evaluation( expression, MockData.getVariableContextMap() );
         }
         System.out.println( "test aviator(use utils): " + ( System.currentTimeMillis() - start ) );
     }

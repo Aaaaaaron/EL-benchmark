@@ -1,6 +1,8 @@
 import com.googlecode.aviator.AviatorEvaluator;
 import com.greenpineyu.fel.Expression;
 import com.greenpineyu.fel.FelEngine;
+import com.greenpineyu.fel.context.ArrayCtxImpl;
+import com.greenpineyu.fel.context.FelContext;
 import org.testng.Assert;
 import strategy.EvaluatorStrategy;
 import strategy.ExpressionEvaluate;
@@ -15,23 +17,84 @@ import java.util.Map;
  */
 public class TestUseStrategy {
     @org.testng.annotations.Test
-    public void testFel2 () {
+    public void testFel4 () {
         FelEngine engine = FelEngine.instance;
-        String s = "a + 5";
+        String s =
+                "( e1_deviceCat == '/Application' " +
+                        "|| e1_deviceCat == '/IDS/Network' " +
+                        "|| e1_deviceCat == '/Firewall' ) " +
+                        "&& e1_catBehavior == '/Authentication/Add' " +
+                        "&& e1_catTechnique == '/TrafficAnomaly/NetWorkLayer' " +
+                        "&& e1_catObject == '/Host/Application/Service' " +
+                        "&& e1_destAddress != null " +
+                        "&& $('fun.ExpressionUtil').timeHourRange(e1_startTime,0,13)";
 
-        Map< String, Object > context = new HashMap<>();
-        context.put( "a", 5 );
-        Expression expression = engine.compile( s,context );
-        System.out.println( expression.eval( context ) );
+        Expression expression = engine.compile( s );
+        Map< String, Object > testContext = new HashMap<>();
+        testContext.put( "e1_deviceCat", "/Application" );
+        testContext.put( "123124e1_startTime", "2016-03-02 12:57:52" );
+
+        System.out.println( expression.eval( testContext ) );
+    }
+
+
+    @org.testng.annotations.Test
+    public void testFelUseOriApi () {
+        FelEngine engine = FelEngine.instance;
+        String s =
+                "( e1_deviceCat == '/Application' " +
+                "|| e1_deviceCat == '/IDS/Network' " +
+                "|| e1_deviceCat == '/Firewall' ) " +
+                "&& e1_catBehavior == '/Authentication/Add' " +
+                "&& e1_catTechnique == '/TrafficAnomaly/NetWorkLayer' " +
+                "&& e1_catObject == '/Host/Application/Service' " +
+                "&& e1_destAddress != null " +
+                "&& $('fun.ExpressionUtil').timeHourRange(e1_startTime,0,13)";
+
+        Map< String, Object > testContext = new HashMap<>();
+        testContext.put( "e1_deviceCat", "/Application" );
+        testContext.put( "e1_catBehavior", "/Authentication/Add" );
+        testContext.put( "e1_catTechnique", "/TrafficAnomaly/NetWorkLayer" );
+        testContext.put( "e1_catObject", "/Host/Application/Service" );
+        testContext.put( "e1_destAddress", "1.1.1.1" );
+        testContext.put( "e1_startTime", "2016-03-02 12:57:52" );
+        FelContext felContext = new ArrayCtxImpl();
+        for ( String key : testContext.keySet() ) {
+            felContext.set( key, "" );
+        }
+        Expression expression = engine.compile( s,felContext);
+
+        FelContext felContext2 = new ArrayCtxImpl();
+        felContext2.set( "asdf","asedfasdf" );
+        felContext2.set( "asdfdsa","asedfasdsf" );
+        System.out.println( expression.eval( felContext2 ) );
     }
 
     @org.testng.annotations.Test
-    public void testAviator2 () {
-        String s = "a > 5";
+    public void testAviatorWithMutableContext () {
+        String s = "a + 5";
         com.googlecode.aviator.Expression expression = AviatorEvaluator.compile( s, true );
         Map< String, Object > context = new HashMap<>();
-        context.put( "a", 6000000000000000000L );
-        System.out.println( expression.execute( context ) );
+        context.put( "a", "5" );
+        Assert.assertEquals( expression.execute( context ), "55" );
+
+        Map< String, Object > context2 = new HashMap<>();
+        context2.put( "a", 5 );
+        Assert.assertEquals( expression.execute( context2 ), 10L );
+    }
+
+    @org.testng.annotations.Test
+    public void testFelWithMutableContext () {
+        FelEngine engine = FelEngine.instance;
+        String s = "a + 5";
+        Expression expression = engine.compile( s );
+        Map< String, Object > context = new HashMap<>();
+        context.put( "a", "5" );
+        Assert.assertEquals( expression.eval( context ), "55" );
+
+        Map< String, Object > context2 = new HashMap<>();
+        context2.put( "a", 5 );
+        Assert.assertEquals( expression.eval( context2 ), 10 );
     }
 
     @org.testng.annotations.Test

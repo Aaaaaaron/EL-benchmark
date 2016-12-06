@@ -38,7 +38,7 @@ public class FelEvaluator implements EvaluatorStrategy {
             task = new FutureTask<>( new Callable< Expression >() {
                 @Override
                 public Expression call () throws Exception {
-                    return innerCompile( expression, context );
+                    return innerCompile( expression );
                 }
             } );
 
@@ -51,7 +51,7 @@ public class FelEvaluator implements EvaluatorStrategy {
 
         }
         else
-            return innerCompile( expression, context );
+            return innerCompile( expression );
     }
 
     private static Expression getCachedCompiledExpression ( final String expression, final FutureTask< Expression > task ) {
@@ -63,8 +63,8 @@ public class FelEvaluator implements EvaluatorStrategy {
         }
     }
 
-    private static Expression innerCompile ( final String expression, final Map< String, Object > context ) {
+    private static Expression innerCompile ( final String expression ) {
         FelEngine engine = FelEngine.instance;
-        return engine.compile( expression, context );
+        return engine.compile( expression );
     }
 }

@@ -5,8 +5,8 @@ import com.greenpineyu.fel.context.ArrayCtxImpl;
 import com.greenpineyu.fel.context.FelContext;
 import com.greenpineyu.fel.function.CommonFunction;
 import com.greenpineyu.fel.function.Function;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import strategy.EvaluatorStrategy;
 import strategy.ExpressionEvaluate;
 import strategy.factory.EvaluatorFactory;
@@ -115,8 +115,8 @@ public class TestProject {
     public void test03 () {
         EvaluatorStrategy evaluator = EvaluatorFactory.createEvaluator( "fel" );
         ExpressionEvaluate expressionEvaluate = new ExpressionEvaluate( evaluator );
-        Assert.assertEquals( expressionEvaluate.evaluation( MockData.getFelExp(), MockData.getVariableContextMap() ), true );
-        Assert.assertEquals( expressionEvaluate.evaluation( MockData.getFelExp(), MockData.getWrongVariableContextMap() ), false );
+        Assertions.assertEquals( expressionEvaluate.evaluation( MockData.getFelExp(), MockData.getVariableContextMap() ), true );
+        Assertions.assertEquals( expressionEvaluate.evaluation( MockData.getFelExp(), MockData.getWrongVariableContextMap() ), false );
     }
 
     @Test

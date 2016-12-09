@@ -1,7 +1,7 @@
 package util;
 
 import com.googlecode.aviator.AviatorEvaluator;
-import fun.AviatorFun;
+import fun.TimeHourRange;
 
 import java.util.Map;
 
@@ -11,7 +11,7 @@ import java.util.Map;
 public class AviatorUtil {
 
     static {
-        AviatorEvaluator.addFunction( new AviatorFun() );
+        AviatorEvaluator.addFunction( new TimeHourRange() );
     }
 
     public static boolean evaluation ( String expression, Map< String, Object > context ) {
@@ -19,6 +19,6 @@ public class AviatorUtil {
     }
 
     public static void regAviatorUtilMethod () {
-        AviatorEvaluator.addFunction( new AviatorFun() );
+        AviatorEvaluator.addFunction( new TimeHourRange() );
     }
 }

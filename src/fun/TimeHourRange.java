@@ -10,10 +10,10 @@ import java.util.Map;
 /**
  * Created by AH on 2016/12/2.
  */
-public class AviatorFun extends AbstractFunction {
+public class TimeHourRange extends AbstractFunction {
     @Override
     public AviatorObject call ( Map< String, Object > env, AviatorObject arg1, AviatorObject arg2, AviatorObject arg3 ) {
-        if ( env.size() != 3 ) {
+        if ( arg1.getValue( env ) == null || arg2.getValue( env ) == null || arg3.getValue( env ) == null ) {
             return AviatorBoolean.FALSE;
         }
         String time = FunctionUtils.getStringValue( arg1, env );

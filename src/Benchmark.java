@@ -2,6 +2,8 @@ import strategy.EvaluatorStrategy;
 import strategy.ExpressionEvaluate;
 import strategy.factory.EvaluatorFactory;
 import util.AviatorUtil;
+import util.FelUtil;
+import util.IKExpression;
 
 import java.util.Map;
 import java.util.Set;
@@ -16,41 +18,37 @@ public class Benchmark {
     public static void main ( String[] args ) {
         variableContextFields = getContextField( MockData.getVariableContextMap() );
         int times = 1000 * 10000;
-        //benchmarkFelUseUtils( times );
+        benchmarkFelUseUtils( times );
         benchmarkFelUseStrategy( times );
-        //benchmarkAviUseUtils( times );
+        benchmarkAviUseUtils( times );
         benchmarkAviUseStrategy( times );
-        //benchmarkIKexpUseUtils( times );
+        benchmarkIKexpUseUtils( times );
         System.out.println();
     }
 
-    //private static void benchmarkFelUseUtils ( int times ) {
-    //    Expression expression = FelUtil.compile( MockData.getFelExp(), MockData.getVariableContextMap() );
-    //    long start = System.currentTimeMillis();
-    //    for ( int i = 0 ; i < times ; i++ ) {
-    //        FelUtil.evaluation( expression, MockData.getVariableContextMap() );
-    //    }
-    //    System.out.println( "test fel(use utils): " + ( System.currentTimeMillis() - start ) );
-    //}
+    private static void benchmarkFelUseUtils ( int times ) {
+        long start = System.currentTimeMillis();
+        for ( int i = 0 ; i < times ; i++ ) {
+            FelUtil.evaluation( MockData.getFelExp(), MockData.getVariableContextMap() );
+        }
+        System.out.println( "test fel(use utils): " + ( System.currentTimeMillis() - start ) );
+    }
 
-    //private static void benchmarkAviUseUtils ( int times ) {
-    //    AviatorUtil.regAviatorUtilMethod();
-    //    com.googlecode.aviator.Expression expression = AviatorUtil.compile( MockData.getAviatorExp() );
-    //    long start = System.currentTimeMillis();
-    //    for ( int i = 0 ; i < times ; i++ ) {
-    //        AviatorUtil.evaluation( expression, MockData.getVariableContextMap() );
-    //    }
-    //    System.out.println( "test aviator(use utils): " + ( System.currentTimeMillis() - start ) );
-    //}
+    private static void benchmarkAviUseUtils ( int times ) {
+        long start = System.currentTimeMillis();
+        for ( int i = 0 ; i < times ; i++ ) {
+            AviatorUtil.evaluation( MockData.getAviatorExp(), MockData.getVariableContextMap() );
+        }
+        System.out.println( "test aviator(use utils): " + ( System.currentTimeMillis() - start ) );
+    }
 
-    //private static void benchmarkIKexpUseUtils ( int times ) {
-    //    PreparedExpression preCompileExp = IKExpression.compile( MockData.getIKExp(), variableContextFields );
-    //    long start = System.currentTimeMillis();
-    //    for ( int i = 0 ; i < times ; i++ ) {
-    //        IKExpression.evaluation( preCompileExp, MockData.getVariableContextMap() );
-    //    }
-    //    System.out.println( "test ike(use utils): " + ( System.currentTimeMillis() - start ) );
-    //}
+    private static void benchmarkIKexpUseUtils ( int times ) {
+        long start = System.currentTimeMillis();
+        for ( int i = 0 ; i < times ; i++ ) {
+            IKExpression.evaluation( MockData.getIKExp(), MockData.getVariableContextMap() );
+        }
+        System.out.println( "test ike(use utils): " + ( System.currentTimeMillis() - start ) );
+    }
 
     private static void benchmarkFelUseStrategy ( int times ) {
         EvaluatorStrategy evaluator = EvaluatorFactory.createEvaluator( "fel" );

@@ -1,7 +1,8 @@
 import com.googlecode.aviator.AviatorEvaluator;
 import com.greenpineyu.fel.Expression;
 import com.greenpineyu.fel.FelEngine;
-import org.testng.Assert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import strategy.EvaluatorStrategy;
 import strategy.ExpressionEvaluate;
 import strategy.factory.EvaluatorFactory;
@@ -14,7 +15,7 @@ import java.util.Map;
  * Created by AH on 2016/12/2.
  */
 public class TestUseStrategy {
-    @org.testng.annotations.Test
+    @Test
     public void testFelUseOriApi () {
         FelEngine engine = FelEngine.instance;
         String s =
@@ -35,48 +36,48 @@ public class TestUseStrategy {
         System.out.println( expression.eval( testContext ) );
     }
 
-    @org.testng.annotations.Test
+    @Test
     public void testAviatorWithMutableContext () {
         String s = "a + 5";
         com.googlecode.aviator.Expression expression = AviatorEvaluator.compile( s, true );
         Map< String, Object > context = new HashMap<>();
         context.put( "a", "5" );
-        Assert.assertEquals( expression.execute( context ), "55" );
+        Assertions.assertEquals( expression.execute( context ), "55" );
 
         Map< String, Object > context2 = new HashMap<>();
         context2.put( "a", 5 );
-        Assert.assertEquals( expression.execute( context2 ), 10L );
+        Assertions.assertEquals( expression.execute( context2 ), 10L );
     }
 
-    @org.testng.annotations.Test
+    @Test
     public void testFelWithMutableContext () {
         FelEngine engine = FelEngine.instance;
         String s = "a + 5";
         Expression expression = engine.compile( s );
         Map< String, Object > context = new HashMap<>();
         context.put( "a", "5" );
-        Assert.assertEquals( expression.eval( context ), "55" );
+        Assertions.assertEquals( expression.eval( context ), "55" );
 
         Map< String, Object > context2 = new HashMap<>();
         context2.put( "a", 5L );
-        Assert.assertEquals( expression.eval( context2 ), 10 );
+        Assertions.assertEquals( expression.eval( context2 ), 10 );
     }
 
-    @org.testng.annotations.Test
+    @Test
     public void testFel () {
         EvaluatorStrategy evaluator = EvaluatorFactory.createEvaluator( "fel" );
         ExpressionEvaluate expressionEvaluate = new ExpressionEvaluate( evaluator );
-        Assert.assertEquals( expressionEvaluate.evaluation( MockData.getFelExp(), MockData.getVariableContextMap() ), true );
-        Assert.assertEquals( expressionEvaluate.evaluation( MockData.getFelExp(), MockData.getWrongVariableContextMap() ), false );
+        Assertions.assertEquals( expressionEvaluate.evaluation( MockData.getFelExp(), MockData.getVariableContextMap() ), true );
+        Assertions.assertEquals( expressionEvaluate.evaluation( MockData.getFelExp(), MockData.getWrongVariableContextMap() ), false );
     }
 
-    @org.testng.annotations.Test
+    @Test
     public void testAviator () {
         AviatorUtil.regAviatorUtilMethod();
         EvaluatorStrategy evaluator = EvaluatorFactory.createEvaluator( "aviator" );
         ExpressionEvaluate expressionEvaluate = new ExpressionEvaluate( evaluator );
-        Assert.assertEquals( expressionEvaluate.evaluation( MockData.getAviatorExp(), MockData.getVariableContextMap() ), true );
-        Assert.assertEquals( expressionEvaluate.evaluation( MockData.getAviatorExp(), MockData.getWrongVariableContextMap() ), false );
+        Assertions.assertEquals( expressionEvaluate.evaluation( MockData.getAviatorExp(), MockData.getVariableContextMap() ), true );
+        Assertions.assertEquals( expressionEvaluate.evaluation( MockData.getAviatorExp(), MockData.getWrongVariableContextMap() ), false );
     }
 }
 

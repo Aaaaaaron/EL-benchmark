@@ -1,58 +1,31 @@
-import java.util.Map;
-import java.util.Set;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import util.AviatorUtil;
+import util.FelUtil;
+import util.IKExpression;
 
 /**
  * Created by AH on 2016/12/2.
  */
 public class TestUseUtil {
-    //@org.testng.annotations.Test
-    //public void testFel () {
-    //    Expression expression = FelUtil.compile( MockData.getFelExp(), MockData.getVariableContextMap() );
-    //    AssertJUnit.assertEquals( FelUtil.evaluation( expression, MockData.getVariableContextMap() ), true );
-    //    AssertJUnit.assertEquals( FelUtil.evaluation( expression, MockData.getWrongVariableContextMap() ), false );
-    //}
-
-    //@org.testng.annotations.Test
-    //public void testIKExpression () {
-    //    Set< String > variableContextFields = getContextFields( MockData.getVariableContextMap() );
-    //    PreparedExpression expression = IKExpression.compile( MockData.getIKExp(), variableContextFields );
-    //    AssertJUnit.assertEquals( IKExpression.evaluation( expression, MockData.getVariableContextMap() ), true );
-    //    AssertJUnit.assertEquals( IKExpression.evaluation( expression, MockData.getWrongVariableContextMap() ), false);
-    //}
-
-    //@org.testng.annotations.Test
-    //public void testAviator () {
-    //    AviatorUtil.regAviatorUtilMethod();
-    //    com.googlecode.aviator.Expression expression = AviatorUtil.compile( MockData.getAviatorExp() );
-    //    AssertJUnit.assertEquals( AviatorUtil.evaluation( expression, MockData.getVariableContextMap() ), true );
-    //    AssertJUnit.assertEquals( AviatorUtil.evaluation( expression, MockData.getWrongVariableContextMap() ), false );
-    //}
-
-    ////测试fel编译缓存
-    //@org.testng.annotations.Test
-    //public void testFelCompileCache () {
-    //    Set< String > variableContextFields = getContextFields( MockData.getVariableContextMap() );
-    //    Expression expression = FelUtil.compile( MockData.getFelExp(), MockData.getVariableContextMap() );
-    //
-    //    //////////////////////////////////////////////////////////////////////////////////////////
-    //    long start = System.currentTimeMillis();
-    //    Expression expression3 = FelUtil.compile( MockData.getFelExp(), MockData.getVariableContextMap(), false );
-    //    for ( int i = 0 ; i < 1 ; i++ ) {
-    //        FelUtil.evaluation( expression3, MockData.getVariableContextMap() );
-    //    }
-    //    System.out.println( "test fel not cache: " + ( System.currentTimeMillis() - start ) );
-    //
-    //    long start2 = System.currentTimeMillis();
-    //    Expression expression4 = FelUtil.compile( MockData.getFelExp(), MockData.getVariableContextMap() );
-    //    for ( int i = 0 ; i < 1 ; i++ ) {
-    //        FelUtil.evaluation( expression3, MockData.getVariableContextMap() );
-    //    }
-    //    System.out.println( "test fel cached: " + ( System.currentTimeMillis() - start2 ) );
-    //
-    //}
-
-    private Set< String > getContextFields ( Map< String, Object > context ) {
-        return context.keySet();
+    @Test
+    public void testFel () {
+        Assertions.assertEquals( true, FelUtil.evaluation( MockData.getFelExp(), MockData.getVariableContextMap() ) );
+        Assertions.assertEquals( false, FelUtil.evaluation( MockData.getFelExp(), MockData.getWrongVariableContextMap() ) );
     }
+
+    @Test
+    public void testIKExpression () {
+        Assertions.assertEquals( true, IKExpression.evaluation( MockData.getIKExp(), MockData.getVariableContextMap() ) );
+        Assertions.assertEquals( false, IKExpression.evaluation( MockData.getIKExp(), MockData.getWrongVariableContextMap() ) );
+    }
+
+    @Test
+    public void testAviator () {
+        Assertions.assertEquals( true, AviatorUtil.evaluation( MockData.getAviatorExp(), MockData.getVariableContextMap() ) );
+        Assertions.assertEquals( false, AviatorUtil.evaluation( MockData.getAviatorExp(), MockData.getWrongVariableContextMap() ) );
+    }
+
+    //测试编译缓存
 }
 

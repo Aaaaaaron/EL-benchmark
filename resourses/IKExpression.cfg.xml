@@ -32,7 +32,7 @@
 	
 	<!-- 用户函数配置  请在这里定制您自己的函数-->
 	<bean class="fun.ExpressionUtil">
-		<function name="TimeHourRange" method="TimeHourRange">
+		<function name="timeHourRange" method="timeHourRange">
 			<parameter-type>java.lang.String</parameter-type>
 			<parameter-type>int</parameter-type>
 			<parameter-type>int</parameter-type>

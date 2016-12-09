@@ -1,7 +1,6 @@
 package util;
 
 import com.googlecode.aviator.AviatorEvaluator;
-import com.googlecode.aviator.Expression;
 import fun.AviatorFun;
 
 import java.util.Map;
@@ -11,15 +10,15 @@ import java.util.Map;
  */
 public class AviatorUtil {
 
-    public static Expression compile ( String expression ) {
-        return AviatorEvaluator.compile( expression, true );
+    static {
+        AviatorEvaluator.addFunction( new AviatorFun() );
+    }
+
+    public static boolean evaluation ( String expression, Map< String, Object > context ) {
+        return ( boolean ) AviatorEvaluator.compile( expression, true ).execute( context );
     }
 
     public static void regAviatorUtilMethod () {
         AviatorEvaluator.addFunction( new AviatorFun() );
-    }
-
-    public static boolean evaluation ( Expression compileExpression, Map< String, Object > context ) {
-        return ( boolean ) compileExpression.execute( context );
     }
 }

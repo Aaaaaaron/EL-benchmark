@@ -5,31 +5,13 @@ package fun;
  */
 public class ExpressionUtil {
 
-    public static String timeHourRange ( String time, int startHour, int endHour ) {
+    public static boolean timeHourRange ( String time, int startHour, int endHour ) {
+        if ( time == null || time.length() == 0 ) {
+            return false;
+        }
         int timeValue = -1;
         timeValue = Integer.parseInt( time.substring( 11, 13 ) );
-        if ( timeValue == -1 )
-            return "false";
-        if ( startHour <= endHour ) {
-            if ( timeValue >= startHour && timeValue <= endHour )
-                return "true";
-            else
-                return "false";
-        }
-        return "false";
+        return timeValue != -1 && startHour <= endHour && timeValue >= startHour && timeValue <= endHour;
     }
 
-    public boolean TimeHourRange ( String time, int startHour, int endHour ) {
-        int timeValue = -1;
-        timeValue = Integer.parseInt( time.substring( 11, 13 ) );
-        if ( timeValue == -1 )
-            return false;
-        if ( startHour <= endHour ) {
-            if ( timeValue >= startHour && timeValue <= endHour )
-                return true;
-            else
-                return false;
-        }
-        return false;
-    }
 }

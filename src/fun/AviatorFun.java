@@ -13,6 +13,9 @@ import java.util.Map;
 public class AviatorFun extends AbstractFunction {
     @Override
     public AviatorObject call ( Map< String, Object > env, AviatorObject arg1, AviatorObject arg2, AviatorObject arg3 ) {
+        if ( env.size() != 3 ) {
+            return AviatorBoolean.FALSE;
+        }
         String time = FunctionUtils.getStringValue( arg1, env );
         Number startHour = FunctionUtils.getNumberValue( arg2, env );
         Number endHour = FunctionUtils.getNumberValue( arg3, env );

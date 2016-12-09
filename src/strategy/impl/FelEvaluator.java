@@ -24,12 +24,12 @@ public class FelEvaluator implements EvaluatorStrategy {
             throw new CompileException( "Blank expression or context" );
 
         Expression compiledExpression =
-                getCompiledExpression( expression, context, true );
+                getCompiledExpression( expression, true );
         Object result = compiledExpression.eval( context );
         return result.toString().equals( "true" );
     }
 
-    private static Expression getCompiledExpression ( final String expression, final Map< String, Object > context, final boolean cached ) {
+    private static Expression getCompiledExpression ( final String expression, final boolean cached ) {
         if ( cached ) {
             FutureTask< Expression > task = cachedExpressions.get( expression );
             if ( task != null )
@@ -64,7 +64,8 @@ public class FelEvaluator implements EvaluatorStrategy {
     }
 
     private static Expression innerCompile ( final String expression ) {
+        //String expression2 = expression.replace( "$", "$('fun.ExpressionUtil')." );
         FelEngine engine = FelEngine.instance;
-        return engine.compile( expression );
+        return engine.compile( expression   );
     }
 }

@@ -16,18 +16,21 @@ public final class FelUtil {
     private final static ConcurrentHashMap< String, FutureTask< Expression > > cachedExpressions
             = new ConcurrentHashMap<>();
 
-    public static Expression compile ( final String expression, final Map< String, Object > context ) {
+    public static boolean evaluation ( String expression, Map< String, Object > context ) {
         if ( expression == null || expression.trim().length() == 0 )
-            throw new CompileException( "Blank expression" );
+            throw new CompileException( "Blank expression or context" );
 
-        return compile( expression, context, true );
+        Expression compiledExpression =
+                getCompiledExpression( expression, context, true );
+        Object result = compiledExpression.eval( context );
+        return result.toString().equals( "true" );
     }
 
-    public static Expression compile ( final String expression, final Map< String, Object > context, final boolean cached ) {
+    private static Expression getCompiledExpression ( final String expression, final Map< String, Object > context, final boolean cached ) {
         if ( cached ) {
             FutureTask< Expression > task = cachedExpressions.get( expression );
             if ( task != null )
-                return getCompiledExpression( expression, task );
+                return getCachedCompiledExpression( expression, task );
 
             task = new FutureTask<>( new Callable< Expression >() {
                 @Override
@@ -41,14 +44,14 @@ public final class FelUtil {
                 existedTask = task;
                 existedTask.run();
             }
-            return getCompiledExpression( expression, existedTask );
+            return getCachedCompiledExpression( expression, existedTask );
 
         }
         else
             return innerCompile( expression );
     }
 
-    private static Expression getCompiledExpression ( final String expression, final FutureTask< Expression > task ) {
+    private static Expression getCachedCompiledExpression ( final String expression, final FutureTask< Expression > task ) {
         try {
             return task.get();
         } catch ( Exception e ) {
@@ -58,12 +61,8 @@ public final class FelUtil {
     }
 
     private static Expression innerCompile ( final String expression ) {
+        //String expression2 = expression.replace( "$", "$('fun.ExpressionUtil')." );
         FelEngine engine = FelEngine.instance;
-        return engine.compile( expression );
-    }
-
-    public static boolean evaluation ( final Expression compileExp, final Map< String, Object > context ) {
-        Object result = compileExp.eval( context );
-        return result.toString().equals( "true" );
+        return engine.compile( expression   );
     }
 }

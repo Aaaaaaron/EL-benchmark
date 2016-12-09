@@ -14,7 +14,7 @@ public class MockData {
                 "&& e1_catTechnique == \"/TrafficAnomaly/NetWorkLayer\" " +
                 "&& e1_catObject == \"/Host/Application/Service\" " +
                 "&& e1_destAddress != null " +
-                "&& $TimeHourRange(e1_startTime,0,13)";
+                "&& $timeHourRange(e1_startTime,0,13)";
     }
 
     public static String getAviatorExp () {
@@ -56,7 +56,7 @@ public class MockData {
         Map< String, Object > testContext = new HashMap<>();
         testContext.put( "e1_deviceCat", "/Application" );
         testContext.put( "e1_catBehavior", "/Authentication/Add" );
-        testContext.put( "e1_severity", 5 );
+        testContext.put( "e1_severity", Integer.valueOf( "5" ) );
         testContext.put( "e1_catTechnique", "/TrafficAnomaly/NetWorkLayer" );
         testContext.put( "e1_catObject", "/Host/Application/Service" );
         testContext.put( "e1_destAddress", "1.1.1.1" );
